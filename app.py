@@ -15,3 +15,8 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
 connect_db(app)
+
+@app.route("/phones")
+def list_phones():
+  employees = Employee.query.all()
+  return render_template("phones.html", employees=employees)
