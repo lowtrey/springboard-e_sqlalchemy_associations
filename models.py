@@ -30,4 +30,5 @@ class Employee(db.Model):
 
   state = db.Column(db.Text, nullable=False, default="LA")
 
-  # dept_code = db.Column(db.Text)
+  # Foreign Key References table name, not Model name
+  dept_code = db.Column(db.Text, db.ForeignKey("departments.dept_code"))
