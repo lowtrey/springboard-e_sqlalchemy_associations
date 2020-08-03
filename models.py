@@ -53,3 +53,17 @@ def get_directory():
       print(emp.name, emp.dept.dept_name, emp.dept.phone)
     else:
       print(emp.name)
+
+# Returns Tuples
+def get_directory_join():
+  directory = db.session.query(Employee.name, Department.dept_name, Department.phone).join(Department).all()
+
+  for name, dept, phone in directory:
+    print(name, dept, phone)
+
+# Returns Class Objects 
+def get_directory_join_class():
+  directory = db.session.query(Employee, Department).join(Department).all()
+
+  for emp, dept in directory:
+    print(emp.name, dept.dept_name, dept.phone)
