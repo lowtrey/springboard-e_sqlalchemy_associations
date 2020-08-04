@@ -41,6 +41,8 @@ class Employee(db.Model):
   # Can run: emp.dept.phone
   dept = db.relationship("Department", backref="employees")
 
+  assignments = db.relationship("EmployeeProject", backref="employee")
+
   def __repr__(self):
     return f"<Employee {self.state} {self.name} {self.dept_code}>"
 
@@ -55,8 +57,11 @@ class Project(db.Model):
 
   project_name = db.Column(db.Text, nullable=False, unique=True)
 
+  assignments = db.relationship("EmployeeProject", backref="project")
+
 
 class EmployeeProject(db.Model):
+  """Mapping of an employee to a project"""
 
   __tablename__ = "employees_projects"
 
