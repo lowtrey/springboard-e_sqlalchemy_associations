@@ -45,6 +45,30 @@ class Employee(db.Model):
     return f"<Employee {self.state} {self.name} {self.dept_code}>"
 
 
+
+class Project(db.Model):
+  """Project. Employees can be assigned to this"""
+
+  __tablename__ = "projects"
+
+  project_code = db.Column(db.Text, primary_key=True)
+
+  project_name = db.Column(db.Text, nullable=False, unique=True)
+
+
+class EmployeeProject(db.Model):
+
+  __tablename__ = "employees_projects"
+
+  # Set up combined primary key by setting multiple columns to True
+  employee_id = db.Column(db.Integer, db.ForeignKey("employees.id"), primary_key=True)
+
+  project_code = db.Column(db.Text, db.ForeignKey("projects.project_code"), primary_key=True)
+
+  role = db.Column(db.Text)
+
+
+
 def get_directory():
   all_employees = Employee.query.all()
   
