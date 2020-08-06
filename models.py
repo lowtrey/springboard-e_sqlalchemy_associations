@@ -36,12 +36,18 @@ class Employee(db.Model):
   # Foreign Key References table name, not Model name
   dept_code = db.Column(db.Text, db.ForeignKey("departments.dept_code"))
 
+  # If using frequent joins, add relationship
   # Add Department - Employee Relationship reference
   # backref = name of relationship you want
   # Can run: emp.dept.phone
   dept = db.relationship("Department", backref="employees")
 
-  assignments = db.relationship("EmployeeProject", backref="employee")
+  # assignments = db.relationship("EmployeeProject", backref="employee")
+
+  # Add through reference using secondary attribute
+  # an employee has many projects through employees_projects
+  # backref means that a project has many employees through employees_projects
+  projects = db.relationship("Project", secondary="employees_projects", backref="employees")
 
   def __repr__(self):
     return f"<Employee {self.state} {self.name} {self.dept_code}>"
@@ -56,8 +62,6 @@ class Project(db.Model):
   project_code = db.Column(db.Text, primary_key=True)
 
   project_name = db.Column(db.Text, nullable=False, unique=True)
-
-  assignments = db.relationship("EmployeeProject", backref="project")
 
 
 class EmployeeProject(db.Model):
