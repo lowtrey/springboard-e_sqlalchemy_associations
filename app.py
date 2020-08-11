@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, Department, Employee, Project, EmployeeProject, get_directory, get_directory_join
+from forms import AddSnackForm
 
 app = Flask(__name__)
 
@@ -16,7 +17,24 @@ debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
+@app.route("/")
+def home_page():
+  return render_template("home.html")
+
 @app.route("/phones")
 def list_phones():
   employees = Employee.query.all()
   return render_template("phones.html", employees=employees)
+
+
+@app.route("/snacks/new", methods=["GET", "POST"])
+def add_snack():
+  form = AddSnackForm()
+  # Is this a post request? AND Is the token valid?
+  if form.validate_on_submit():
+    name = form.name.data
+    price = form.price.data
+    flash(f"Created new snack: name is {name}, price is {price}")
+    return redirect("/")
+  else:
+    return render_template("add_snack_form.html", form=form)
