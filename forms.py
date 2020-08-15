@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField, BooleanField, IntegerField, RadioField, SelectField
-from wtforms.validators import InputRequired
+from wtforms.validators import InputRequired, Email
 
 
 states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
@@ -12,7 +12,9 @@ states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
 class AddSnackForm(FlaskForm):
   """Form for adding snacks."""
 
-  name = StringField("Snack Name", validators=[InputRequired()])
+  email = StringField("Email", validators=[Email()])
+
+  name = StringField("Snack Name", validators=[InputRequired(message="Snack Name can't be blank")])
 
   price = FloatField("Price in USD")
 
