@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, Department, Employee, Project, EmployeeProject, get_directory, get_directory_join
-from forms import AddSnackForm, NewEmployeeForm
+from forms import AddSnackForm, EmployeeForm
 
 app = Flask(__name__)
 
@@ -42,17 +42,17 @@ def add_snack():
 
 @app.route("/employees/new", methods=["GET", "POST"])
 def add_employee():
-  form = NewEmployeeForm()
+  form = EmployeeForm()
 
   # Dynamically Add Department Choices
   # First item in tuple is value, second is what user sees
   departments = db.session.query(Department.dept_code, Department.dept_name)
-  form.department_code.choices = departments
+  form.dept_code.choices = departments
 
   if form.validate_on_submit():
     name=form.name.data
     state=form.state.data
-    dept_code=form.department_code.data
+    dept_code=form.dept_code.data
 
     employee = Employee(name=name, state=state, dept_code=dept_code)
     
@@ -61,3 +61,24 @@ def add_employee():
     return redirect("/phones")
   else:
     return render_template("add_employee_form.html", form=form)
+
+@app.route("/employees/<int:id>/edit", methods=["GET", "POST"])
+def edit_employee(id):
+  # Pass in existing Employee to form
+  # Object attributes must match form fields
+  employee = Employee.query.get_or_404(id)
+  form = EmployeeForm(obj=employee)
+
+  # Dynamically Add Department Choices
+  # First item in tuple is value, second is what user sees
+  departments = db.session.query(Department.dept_code, Department.dept_name)
+  form.dept_code.choices = departments
+
+  if form.validate_on_submit():
+    employee.name = form.name.data
+    employee.state = form.state.data
+    employee.dept_code = form.dept_code.data
+    db.session.commit()
+    return redirect("/phones")
+  else:
+    return render_template("edit_employee_form.html", form=form)

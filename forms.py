@@ -27,11 +27,11 @@ class AddSnackForm(FlaskForm):
   category = SelectField("Category", choices=[("ic", "Ice Cream", ), ("chips", "Potato Chips"), ("candy", "Candy/Sweets")])
 
 
-class NewEmployeeForm(FlaskForm):
+class EmployeeForm(FlaskForm):
   """Form for adding employee"""
 
-  name = StringField("Employee Name")
+  name = StringField("Employee Name", validators=[InputRequired(message="Name can not be blank")])
 
   state = SelectField("State", choices=[(state, state) for state in states])
 
-  department_code = SelectField("Department Code")
+  dept_code = SelectField("Department Code")
