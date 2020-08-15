@@ -1,21 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+{% for msg in get_flashed_messages() %}
+<p>
+  {{msg}}
+</p>
+{% endfor %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
-</head>
-
-<body>
-  {% for msg in get_flashed_messages() %}
-  <p>
-    {{msg}}
-  </p>
-  {% endfor %}
-
-  <a href="/snacks/new">Add New Snack</a>
-  <a href="/phones">View Phone Directory</a>
-</body>
-
-</html>
+<a href="/snacks/new">Add New Snack</a>
+<a href="/phones">View Phone Directory</a>
+{% endblock %}

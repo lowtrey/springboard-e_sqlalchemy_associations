@@ -1,28 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block title %}Edit Employee{% endblock %}
+{% block content %}
+<h1>Edit Employee</h1>
+<form method="POST">
+  {{form.hidden_tag()}}
+  {% for field in form if field.widget.input_type != "hidden" %}
+  <p>
+    {{field.label}}
+    {{field}}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit Employee</title>
-</head>
-
-<body>
-  <h1>Edit Employee</h1>
-  <form method="POST">
-    {{form.hidden_tag()}}
-    {% for field in form if field.widget.input_type != "hidden" %}
-    <p>
-      {{field.label}}
-      {{field}}
-
-      {% for error in field.errors %}
-      {{error}}
-      {% endfor %}
-    </p>
+    {% for error in field.errors %}
+    {{error}}
     {% endfor %}
-    <button>Save</button>
-  </form>
-</body>
-
-</html>
+  </p>
+  {% endfor %}
+  <button>Save</button>
+</form>
+{% endblock %}
