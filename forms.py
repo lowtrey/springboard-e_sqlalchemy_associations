@@ -24,4 +24,4 @@ class NewEmployeeForm(FlaskForm):
 
   state = StringField("State")
 
-  department_code = StringField("Department Code")
+  department_code = SelectField("Department Code")

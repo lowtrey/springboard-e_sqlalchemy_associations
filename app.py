@@ -43,6 +43,12 @@ def add_snack():
 @app.route("/employees/new", methods=["GET", "POST"])
 def add_employee():
   form = NewEmployeeForm()
+
+  # Dynamically Add Department Choices
+  # First item in tuple is value, second is what user sees
+  departments = db.session.query(Department.dept_code, Department.dept_name)
+  form.department_code.choices = departments
+
   if form.validate_on_submit():
     name=form.name.data
     state=form.state.data
